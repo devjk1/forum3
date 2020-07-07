@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,14 +16,12 @@ class DatabaseSeeder extends Seeder
         // $threads->each(function ($thread) {
         //     $thread->replies()->saveMany(factory(App\Reply::class, 10)->make(['thread_id' => $thread]));
         // });
-        
-        $threads = factory(App\Thread::class, 10)->create();
+
+        $threads = factory(App\Thread::class, 100)->create();
+        $users = User::all();
         foreach($threads as $thread) {
-            $users = $threads->map(function ($thread) {
-                return $thread->user;
-            });
             foreach($users as $user) {
-                $user->replies()->save(factory(App\Reply::class)->make(['user_id' => $user, 'thread_id' => $thread]));
+                factory(App\Reply::class)->create(['user_id' => $user, 'thread_id' => $thread]);
             }
         }
     }
