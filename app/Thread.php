@@ -15,4 +15,9 @@ class Thread extends Model
     {
         return $this->hasMany('App\Reply');
     }
+
+    public function path()
+    {
+        return '/threads/' . $this->id;
+    }
 }
