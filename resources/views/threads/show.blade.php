@@ -23,7 +23,7 @@
     @if(Auth::check())
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <form method="post" action="{{ route('reply.store', ['thread' => $thread]) }}">
+            <form method="post" action="{{ route('replies.store', ['thread' => $thread]) }}">
                 @csrf
                 <div class="form-group">
                     <textarea 

@@ -24,6 +24,6 @@ class ReplyController extends Controller
         $newReply->body = $request->body;
         $newReply->save();
 
-        return redirect()->route('thread.show', compact('thread'));
+        return redirect()->route('threads.show', compact('thread'));
     }
 }

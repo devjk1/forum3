@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class ReplyTest extends TestCase
 {
-    use RefreshDatabase;
     use DatabaseMigrations;
 
     // public function test_reply_has_an_owner()
