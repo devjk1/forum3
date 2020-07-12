@@ -25,6 +25,7 @@ class CreateThreadTest extends TestCase
 
     public function test_guest_user_cannot_access_create_thread_page()
     {
+        $this->assertGuest($guard = null);
         $this->get(route('threads.create'))
             ->assertRedirect(route('login'));
     }
@@ -34,11 +35,17 @@ class CreateThreadTest extends TestCase
         $user = factory('App\User')->create();
         $this->actingAs($user);
 
-        $thread = factory('App\Thread')->make();    // simulate a form
-        $this->post(route('threads.store'), $thread->toArray())
-            ->assertRedirect(route('threads.show', Thread::where('title', $thread->title)->first()));
-            
-        $this->get(route('threads.show', Thread::where('title', $thread->title)->first()))
+        $thread = factory('App\Thread')->make();
+        $this->post(route('threads.store'), $thread->toArray());
+            // ->assertRedirect(route('threads.show', [
+            //     'channel' => $thread->channel->slug,
+            //     'thread' => Thread::where('title', $thread->title)->first(),
+            // ]));             // ... get the saved thread after POSTing
+        
+        $this->get(route('threads.show', [
+            'channel' => $thread->channel->slug,
+            'thread' => Thread::where('title', $thread->title)->first(),
+        ]))
             ->assertSee($thread->title)
             ->assertSee($thread->body);
     }

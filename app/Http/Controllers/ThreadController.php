@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Thread;
+use App\Channel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -60,12 +61,12 @@ class ThreadController extends Controller
 
         $thread = Thread::create([
             'user_id' => Auth::id(),
-            'channel_id' => 1,
+            'channel_id' => $request->channel,  // receive slug, convert to channel_id how?
             'title' => $request->title,
             'body' => $request->body,    
         ]);
 
-        return redirect(route('threads.show', $thread));
+        return redirect(route('threads.show', $request->channel, $thread));
     }
 
     /**
@@ -74,9 +75,9 @@ class ThreadController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function show(Thread $thread)
+    public function show(Channel $channel, Thread $thread)
     {
-        return view('threads.show', compact('thread'));
+        return view('threads.show', compact('channel', 'thread'));
     }
 
     /**
