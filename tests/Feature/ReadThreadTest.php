@@ -20,21 +20,21 @@ class ReadThreadTest extends TestCase
 
     public function test_user_can_browse_threads()
     {
-        $response = $this->get('/threads');
+        $response = $this->get(route('threads.index'));
         $response->assertSee($this->thread->title);
         // $response->assertStatus(200);
     }
 
     public function test_user_can_browse_a_thread()
     {
-        $response = $this->get('/threads/' . $this->thread->id);
+        $response = $this->get(route('threads.show', $this->thread));
         $response->assertSee($this->thread->title);
     }
 
     public function test_user_can_read_replies_of_a_thread()
     {
         $reply = factory('App\Reply')->create(['thread_id' => $this->thread]);
-        $response = $this->get('/threads/' . $this->thread->id);
+        $response = $this->get(route('threads.show', $this->thread));
         $response->assertSee($reply->body);
     }
 
@@ -48,5 +48,11 @@ class ReadThreadTest extends TestCase
     {
         $reply = factory('App\Reply')->create();
         $this->assertInstanceOf('App\User', $this->thread->user);
+    }
+
+    public function test_thread_belongs_to_channel()
+    {
+        $thread = factory('App\Thread')->create();
+        $this->assertInstanceOf('App\Channel', $thread->channel);
     }
 }

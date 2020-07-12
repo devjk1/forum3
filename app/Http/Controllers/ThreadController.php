@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\Thread;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class ThreadController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->only('store');
+        $this->middleware('auth')->only([
+            'create',
+            'store',
+        ]);
     }
 
     /**
@@ -31,7 +35,7 @@ class ThreadController extends Controller
      */
     public function create()
     {
-        //
+        return view('threads.create');
     }
 
     /**
@@ -42,15 +46,26 @@ class ThreadController extends Controller
      */
     public function store(Request $request)
     {
-        // validation
+        // $validator = Validator::make($request->all(), [
+        //     'title' => 'required',
+        //     'body' => 'required',
+        // ]);
+
+        // if($validator->fails()) {
+        //     return redirect(route('threads.create'))
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // }
+        // ddd(Auth::id());
 
         $thread = Thread::create([
             'user_id' => Auth::id(),
+            'channel_id' => 1,
             'title' => $request->title,
             'body' => $request->body,    
         ]);
 
-        return redirect(route('thread.show', $thread));
+        return redirect(route('threads.show', $thread));
     }
 
     /**

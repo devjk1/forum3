@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
+    protected $fillable = [
+        'user_id',
+        'channel_id',
+        'title',
+        'body',
+    ];
+
     public function user()
     {
         return $this->belongsTo('App\User');
@@ -16,8 +23,8 @@ class Thread extends Model
         return $this->hasMany('App\Reply');
     }
 
-    public function path()
+    public function channel()
     {
-        return '/threads/' . $this->id;
+        return $this->belongsTo('App\Channel');
     }
 }
