@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Thread;
+//use App\Thread;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -12,6 +12,7 @@ use Tests\TestCase;
 class CreateThreadTest extends TestCase
 {
     use DatabaseMigrations;
+    use RefreshDatabase;
 
     public function test_guest_user_cannot_create_thread()
     {
@@ -32,20 +33,19 @@ class CreateThreadTest extends TestCase
 
     public function test_authenticated_user_can_create_thread()
     {
+        $this->withoutExceptionHandling();
+
         $user = factory('App\User')->create();
         $this->actingAs($user);
 
         $thread = factory('App\Thread')->make();
-        ddd($thread->toArray());
-        $this->post(route('threads.store'), $thread->toArray());
-            // ->assertRedirect(route('threads.show', [
-            //     'channel' => $thread->channel->slug,
-            //     'thread' => Thread::where('title', $thread->title)->first(),
-            // ]));             // ... get the saved thread after POSTing
-        
+        //dd($thread->toArray());
+        $this->post(route('threads.store'), $thread->toArray());             // ... get the saved thread after POSTing
+        //dd(\App\Thread::all());
+        //dd(\App\Thread::where('title', $thread->title)->first());
         $this->get(route('threads.show', [
-            'channel' => $thread->channel->slug,
-            'thread' => Thread::where('title', $thread->title)->first(),
+            'channel' => $thread->channel,
+            'thread' => \App\Thread::where('title', $thread->title)->first(),
         ]))
             ->assertSee($thread->title)
             ->assertSee($thread->body);

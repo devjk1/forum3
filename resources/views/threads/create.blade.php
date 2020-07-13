@@ -33,8 +33,8 @@
                         <div class="form-group">
                             <label for="channel">Channel</label>
                             <select 
-                                name="channel" 
-                                id="channel"
+                                name="channel_id" 
+                                id="channel_id"
                             >
                                 @foreach($channels as $channel)
                                 <option value="{{ $channel->id }}">
