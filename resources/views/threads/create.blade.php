@@ -30,7 +30,25 @@
                                 class="form-control"
                             ></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Publish</button>
+                        <div class="form-group">
+                            <label for="channel">Channel</label>
+                            <select 
+                                name="channel" 
+                                id="channel"
+                            >
+                                @foreach($channels as $channel)
+                                <option value="{{ $channel->id }}">
+                                    {{ $channel->slug }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button 
+                            type="submit" 
+                            class="btn btn-primary float-md-right"
+                        >
+                            Publish
+                        </button>
                     </form>
                 </div>
             </div>

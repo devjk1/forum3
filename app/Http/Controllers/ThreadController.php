@@ -36,7 +36,9 @@ class ThreadController extends Controller
      */
     public function create()
     {
-        return view('threads.create');
+        $channels = Channel::all();
+
+        return view('threads.create', compact('channels'));
     }
 
     /**
@@ -61,12 +63,15 @@ class ThreadController extends Controller
 
         $thread = Thread::create([
             'user_id' => Auth::id(),
-            'channel_id' => $request->channel,  // receive slug, convert to channel_id how?
+            'channel_id' => $request->channel,  // receive slug, convert to channel_id
             'title' => $request->title,
             'body' => $request->body,    
         ]);
 
-        return redirect(route('threads.show', $request->channel, $thread));
+        return redirect(route('threads.show', [
+            'channel' => $thread->channel,
+            'thread' => $thread,
+        ]));
     }
 
     /**

@@ -36,6 +36,7 @@ class CreateThreadTest extends TestCase
         $this->actingAs($user);
 
         $thread = factory('App\Thread')->make();
+        ddd($thread->toArray());
         $this->post(route('threads.store'), $thread->toArray());
             // ->assertRedirect(route('threads.show', [
             //     'channel' => $thread->channel->slug,

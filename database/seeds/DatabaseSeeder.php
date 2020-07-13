@@ -16,8 +16,11 @@ class DatabaseSeeder extends Seeder
         // $threads->each(function ($thread) {
         //     $thread->replies()->saveMany(factory(App\Reply::class, 10)->make(['thread_id' => $thread]));
         // });
+        factory(App\Channel::class)->create(['slug' => 'Laravel', 'name' => 'Laravel']);
+        factory(App\Channel::class)->create(['slug' => 'PHP', 'name' => 'PHP']);
+        factory(App\Channel::class)->create(['slug' => 'Vue.js', 'name' => 'Vue.js']);
 
-        $threads = factory(App\Thread::class, 100)->create();
+        $threads = factory(App\Thread::class, 40)->create(['channel_id' => 1]);
         $users = User::all();
         foreach($threads as $thread) {
             foreach($users as $user) {
