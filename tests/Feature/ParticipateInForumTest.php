@@ -18,9 +18,9 @@ class ParticipateInForumTest extends TestCase
         $this->be($user);
 
         $thread = factory('App\Thread')->create();
-        $reply = factory('App\Reply')->create(['thread_id' => $thread]);
-        $this->post(route('replies.store', $thread));
-
+        $reply = factory('App\Reply')->make(['thread_id' => $thread]);
+        $this->post(route('replies.store', $thread), $reply->toArray());
+        
         $this->get(route('threads.show', [
             'channel' => $thread->channel,
             'thread' => $thread,

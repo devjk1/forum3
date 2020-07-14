@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-//use App\Thread;
+use App\Thread;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -39,13 +39,16 @@ class CreateThreadTest extends TestCase
         $this->actingAs($user);
 
         $thread = factory('App\Thread')->make();
-        //dd($thread->toArray());
-        $this->post(route('threads.store'), $thread->toArray());             // ... get the saved thread after POSTing
-        //dd(\App\Thread::all());
-        //dd(\App\Thread::where('title', $thread->title)->first());
+       
+        $this->post(route('threads.store'), $thread->toArray())
+            ->assertRedirect(route('threads.show', [
+                'channel' => $thread->channel,
+                'thread' => Thread::where('title', $thread->title)->first(),
+            ])); 
+
         $this->get(route('threads.show', [
             'channel' => $thread->channel,
-            'thread' => \App\Thread::where('title', $thread->title)->first(),
+            'thread' => Thread::where('title', $thread->title)->first(),
         ]))
             ->assertSee($thread->title)
             ->assertSee($thread->body);
