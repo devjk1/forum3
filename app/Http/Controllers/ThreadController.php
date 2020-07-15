@@ -63,7 +63,7 @@ class ThreadController extends Controller
 
         $thread = Thread::create([
             'user_id' => Auth::id(),
-            'channel_id' => $request->channel_id,  // receive slug, convert to channel_id
+            'channel_id' => $request->channel_id,
             'title' => $request->title,
             'body' => $request->body,    
         ]);

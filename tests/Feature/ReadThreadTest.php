@@ -43,4 +43,16 @@ class ReadThreadTest extends TestCase
         ]));
         $response->assertSee($reply->body);
     }
+
+    public function test_user_can_filter_threads_by_channel()
+    {
+        $thread1 = factory('App\Thread')->create();
+        $thread2 = factory('App\Thread')->create();
+
+        $this->get(route('channels.index', ['channel' => $thread1->channel]))
+            ->assertSee($thread1->title)
+            ->assertSee($thread1->body)
+            ->assertDontSee($thread2->title)
+            ->assertDontSee($thread2->body);
+    }
 }

@@ -32,4 +32,4 @@ Route::get('threads/{thread}/edit', 'ThreadController@edit')->name('threads.edit
 Route::put('threads/{thread}/update', 'ThreadController@update')->name('threads.update');
 Route::delete('threads/{thread}/delete', 'ThreadController@destroy')->name('threads.destroy');
 
-
+Route::get('threads/{channel:slug}', 'ChannelController@index')->name('channels.index');
