@@ -49,17 +49,17 @@ class ThreadController extends Controller
      */
     public function store(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'title' => 'required',
-        //     'body' => 'required',
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'channel_id' => 'required|exists:channels,id',
+            'title' => 'required',
+            'body' => 'required',
+        ]);
 
-        // if($validator->fails()) {
-        //     return redirect(route('threads.create'))
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
-        // ddd(Auth::id());
+        if($validator->fails()) {
+            return redirect(route('threads.create'))
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         $thread = Thread::create([
             'user_id' => Auth::id(),

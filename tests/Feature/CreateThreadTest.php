@@ -39,7 +39,7 @@ class CreateThreadTest extends TestCase
         $this->actingAs($user);
 
         $thread = factory('App\Thread')->make();
-       
+        
         $this->post(route('threads.store'), $thread->toArray())
             ->assertRedirect(route('threads.show', [
                 'channel' => $thread->channel,
@@ -52,5 +52,41 @@ class CreateThreadTest extends TestCase
         ]))
             ->assertSee($thread->title)
             ->assertSee($thread->body);
+    }
+
+    public function test_thread_requires_title()
+    {
+        $user = factory('App\User')->create();
+        $this->actingAs($user);
+
+        $thread = factory('App\Thread')->make(['title' => null]);
+
+        $this->post(route('threads.store'), $thread->toArray())
+            ->assertSessionHasErrors('title');
+    }
+
+    public function test_thread_requires_title_and_body()
+    {
+        $user = factory('App\User')->create();
+        $this->actingAs($user);
+
+        $thread = factory('App\Thread')->make(['title' => null, 'body' => null]);
+
+        $this->post(route('threads.store'), $thread->toArray())
+            ->assertSessionHasErrors([
+                'title',
+                'body',
+            ]);
+    }
+
+    public function test_thread_requires_existing_channel()
+    {
+        $user = factory('App\User')->create();
+        $this->actingAs($user);
+
+        $thread = factory('App\Thread')->make(['channel_id' => 5]);
+
+        $this->post(route('threads.store'), $thread->toArray())
+            ->assertSessionHasErrors(['channel_id']);
     }
 }
