@@ -84,8 +84,15 @@ class CreateThreadTest extends TestCase
         $user = factory('App\User')->create();
         $this->actingAs($user);
 
-        $thread = factory('App\Thread')->make(['channel_id' => 5]);
+        $thread = factory('App\Thread')->make();
+        $thread->channel_id = null; // test null channel
+        
+        $this->post(route('threads.store'), $thread->toArray())
+            ->assertSessionHasErrors(['channel_id']);
 
+        $thread = factory('App\Thread')->make();
+        $thread->channel_id = 100;  // test non-existing channel
+        
         $this->post(route('threads.store'), $thread->toArray())
             ->assertSessionHasErrors(['channel_id']);
     }
