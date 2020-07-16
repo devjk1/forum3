@@ -14,11 +14,16 @@
                             <label for="title">Title</label>
                             <input 
                                 type="text" 
-                                class="form-control"
+                                class="form-control @error('title') is-invalid @enderror"
                                 name="title"
                                 id="title"
-                                placeholder="Enter a title"    
+                                placeholder="Enter a title"
                             >
+                            @error('title')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="body">Body</label>
@@ -27,8 +32,13 @@
                                 id="body" 
                                 cols="8" 
                                 rows="8" 
-                                class="form-control"
+                                class="form-control @error('body') is-invalid @enderror" 
                             ></textarea>
+                            @error('body')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="channel">Channel</label>
