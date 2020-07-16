@@ -18,6 +18,7 @@
                                 name="title"
                                 id="title"
                                 placeholder="Enter a title"
+                                value="{{ old('title') }}"
                             >
                             @error('title')
                                 <span class="invalid-feedback" role="alert">
@@ -32,8 +33,8 @@
                                 id="body" 
                                 cols="8" 
                                 rows="8" 
-                                class="form-control @error('body') is-invalid @enderror" 
-                            ></textarea>
+                                class="form-control @error('body') is-invalid @enderror"
+                            >{{ old('body') }}</textarea>
                             @error('body')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -45,13 +46,20 @@
                             <select 
                                 name="channel_id" 
                                 id="channel_id"
+                                class="form-control @error('channel_id') is-invalid @enderror"
                             >
+                                <option value="">[Choose a Channel]</option>
                                 @foreach($channels as $channel)
                                 <option value="{{ $channel->id }}">
                                     {{ $channel->slug }}
                                 </option>
                                 @endforeach
                             </select>
+                            @error('channel_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <button 
                             type="submit" 
