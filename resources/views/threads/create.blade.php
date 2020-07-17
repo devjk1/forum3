@@ -14,7 +14,7 @@
                             <label for="title">Title</label>
                             <input 
                                 type="text" 
-                                class="form-control @error('title') is-invalid @enderror"
+                                class="form-control @error('title') is-invalid @enderror" required
                                 name="title"
                                 id="title"
                                 placeholder="Enter a title"
@@ -33,7 +33,7 @@
                                 id="body" 
                                 cols="8" 
                                 rows="8" 
-                                class="form-control @error('body') is-invalid @enderror"
+                                class="form-control @error('body') is-invalid @enderror" required
                             >{{ old('body') }}</textarea>
                             @error('body')
                                 <span class="invalid-feedback" role="alert">
@@ -46,7 +46,7 @@
                             <select 
                                 name="channel_id" 
                                 id="channel_id"
-                                class="form-control @error('channel_id') is-invalid @enderror"
+                                class="form-control @error('channel_id') is-invalid @enderror" required
                             >
                                 <option value="">[Choose a Channel]</option>
                                 @foreach($channels as $channel)
