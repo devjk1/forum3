@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class ReadThreadTest extends TestCase
@@ -54,5 +55,18 @@ class ReadThreadTest extends TestCase
             ->assertSee($thread1->body)
             ->assertDontSee($thread2->title)
             ->assertDontSee($thread2->body);
+    }
+
+    public function test_authorized_user_can_filter_threads_by_creator()
+    {
+        $user = factory('App\User')->create(['name' => 'John Doe']);
+        $this->actingAs($user);
+
+        $threadByJohn = factory('App\Thread')->create(['user_id' => Auth::id()]);
+        $threadNotByJohn = factory('App\Thread')->create();
+
+        $this->get('/threads?name=John+Doe')
+            ->assertSee($threadByJohn->title)
+            ->assertDontSee($threadNotByJohn->title);
     }
 }

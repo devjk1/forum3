@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Thread;
 use App\Channel;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -25,7 +26,15 @@ class ThreadController extends Controller
      */
     public function index()
     {
-        $threads = Thread::latest()->get();
+        $threads = Thread::latest();
+
+        if($username = request('name')) {
+            $user = User::where('name', $username)->firstOrFail();
+            $threads = $threads->where('user_id', $user->id);   // $user?
+        }
+        
+        $threads = $threads->get();
+        
         return view('threads.index', compact('threads'));
     }
 
