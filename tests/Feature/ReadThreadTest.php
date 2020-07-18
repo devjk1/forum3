@@ -59,13 +59,14 @@ class ReadThreadTest extends TestCase
 
     public function test_authorized_user_can_filter_threads_by_creator()
     {
+        $this->withoutExceptionHandling();
         $user = factory('App\User')->create(['name' => 'John Doe']);
         $this->actingAs($user);
 
         $threadByJohn = factory('App\Thread')->create(['user_id' => Auth::id()]);
         $threadNotByJohn = factory('App\Thread')->create();
 
-        $this->get('/threads?name=John+Doe')
+        $this->get('/threads?by=John+Doe')
             ->assertSee($threadByJohn->title)
             ->assertDontSee($threadNotByJohn->title);
     }
