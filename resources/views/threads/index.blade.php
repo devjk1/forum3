@@ -20,6 +20,7 @@
                         </article>
                     @endforeach
                 </div>
+                {{ $threads->links() }}
             </div>
         </div>
     </div>

@@ -12,9 +12,11 @@
                 </div>
             </div>
 
-            @foreach($thread->replies as $reply)
+            @foreach($replies as $reply)
                 @include('threads.reply')
             @endforeach
+
+            {{ $replies->links() }}
 
             @if(Auth::check())
             <form method="post" action="{{ route('replies.store', ['channel' => $channel, 'thread' => $thread]) }}">
